@@ -1,9 +1,32 @@
+using Blogy.Business.Mappings;
+using Blogy.Business.Services.CategoryServices;
+using Blogy.Business.Validators.CategoryValidators;
 using Blogy.DataAccess.Context;
+using Blogy.DataAccess.Repositories.BlogRepositories;
+using Blogy.DataAccess.Repositories.BlogTagRepositories;
+using Blogy.DataAccess.Repositories.CategoryRepositories;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddAutoMapper(typeof(CategoryMappings).Assembly);
+
+builder.Services.AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters()
+    .AddValidatorsFromAssembly(typeof(CreateCategoryValidator).Assembly);
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+
+builder.Services.AddScoped<IBlogTagRepository, BlogTagRepository>();
+
+
 
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -29,6 +52,11 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+app.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+          );
 
 app.MapControllerRoute(
     name: "default",
