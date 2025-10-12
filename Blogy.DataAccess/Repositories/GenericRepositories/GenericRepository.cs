@@ -8,8 +8,8 @@ namespace Blogy.DataAccess.Repositories.GenericRepositories
     public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : BaseEntity
     {
 
-        private readonly AppDbContext _context;
-        private readonly DbSet<TEntity> _table;
+        protected readonly AppDbContext _context;
+        protected readonly DbSet<TEntity> _table;
 
         public GenericRepository(AppDbContext context)
         {
@@ -48,6 +48,7 @@ namespace Blogy.DataAccess.Repositories.GenericRepositories
         public async Task UpdateAsync(TEntity entity)
         {
            _context.Update(entity);
+            _context.Entry(entity).Property(x => x.CreatedDate).IsModified = false;
             await _context.SaveChangesAsync();
         }
     }
