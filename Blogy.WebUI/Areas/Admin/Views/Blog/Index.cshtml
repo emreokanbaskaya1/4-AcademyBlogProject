@@ -28,7 +28,7 @@
             <td>@item.Description</td>
             <td>@item.Category.CategoryName</td>
             <td>
-                <a href="/Admin/Blog/DeleteBlog/@item.Id" class="btn btn-danger">Delete</a>
+                <a href="/Admin/Blog/DeleteBlog/@item.Id" onclick="return confirm('Are you sure you want to permanently delete this item?')" class="btn btn-danger">Delete</a>
                 <a href="/Admin/Blog/UpdateBlog/@item.Id" class="btn btn-info">Update</a>
             </td>
         </tr>

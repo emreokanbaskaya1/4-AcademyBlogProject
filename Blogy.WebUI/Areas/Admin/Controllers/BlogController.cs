@@ -43,5 +43,32 @@ namespace Blogy.WebUI.Areas.Admin.Controllers
             await _blogService.CreateAsync(blogDto);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            await _blogService.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> UpdateBlog(int id)
+        {
+            await GetCategoriesAsync();
+            var blog = await _blogService.GetById(id);
+            return View(blog);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateBlog(UpdateBlogDto updateBlogDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                await GetCategoriesAsync();
+                return View(updateBlogDto);
+            }
+
+            await _blogService.UpdateAsync(updateBlogDto);
+            return RedirectToAction("Index");
+        }
     }
 }
