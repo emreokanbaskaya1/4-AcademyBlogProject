@@ -13,7 +13,7 @@
                 <div class="col-sm-6">
                     <h2 class="posts-entry-title">@category.CategoryName</h2>
                 </div>
-                <div class="col-sm-6 text-sm-end"><a href="#" class="read-more">Show All</a></div>
+                <div class="col-sm-6 text-sm-end"><a href="/Blog/GetBlogsByCategory/@category.Id" class="read-more">Show All</a></div>
             </div>
 
 
@@ -34,7 +34,7 @@
                                     <span>&nbsp;-&nbsp; @blog.CreatedDate.ToShortDateString()</span>
                                 </div>
 
-                                <p>@blog.Description.Substring(0, 100) ...</p>
+                                <p>@(blog.Description.Length < 100 ? blog.Description : blog.Description.Substring(0, 100) + "...")</p>
                                 <p><a href="#" class="read-more">Continue Reading</a></p>
                             </div>
                         </div>
