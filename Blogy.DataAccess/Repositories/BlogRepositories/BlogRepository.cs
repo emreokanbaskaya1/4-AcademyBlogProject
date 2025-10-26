@@ -15,5 +15,10 @@ namespace Blogy.DataAccess.Repositories.BlogRepositories
         {
             return await _table.Include(x=>x.Category).ToListAsync();
         }
+
+        public async Task<List<Blog>> GetLast3BlogsAsync()
+        {
+            return await _table.OrderByDescending(x=>x.Id).Take(3).ToListAsync();
+        }
     }
 }

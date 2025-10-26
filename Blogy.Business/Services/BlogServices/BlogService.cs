@@ -48,6 +48,12 @@ namespace Blogy.Business.Services.BlogServices
             return _mapper.Map<UpdateBlogDto>(value);
         }
 
+        public async Task<List<ResultBlogDto>> GetLast3BlogsAsync()
+        {
+            var values = await _blogRepository.GetLast3BlogsAsync();
+            return _mapper.Map<List<ResultBlogDto>>(values);
+        }
+
         public async Task UpdateAsync(UpdateBlogDto dto)
         {
             var entity = _mapper.Map<Blog>(dto);

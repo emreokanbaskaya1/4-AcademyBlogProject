@@ -9,10 +9,13 @@ namespace Blogy.Entity.Entities
         public string CoverImage { get; set; }
         public string BlogImage1 { get; set; }
         public string BlogImage2 { get; set; }
-
         public int CategoryId { get; set; }
         public Category Category  { get; set; }
-
         public IList<BlogTag> BlogTags { get; set; }
+
+        public int WriterId { get; set; }
+        public AppUser Writer {  get; set; }
+
+        public IList<Comment> Comments { get; set; }
     }
 }
