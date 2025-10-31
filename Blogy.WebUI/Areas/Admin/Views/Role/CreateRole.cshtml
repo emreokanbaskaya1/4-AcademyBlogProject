@@ -1,0 +1,16 @@
+﻿@model AppRole
+@{
+    ViewData["Title"] = "CreateRole";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Create New Role</h3>
+
+<form method="post">
+    <label>Role Name</label>
+    <input type="text" asp-for="Name" class="form-control" required/>
+    <br />
+    <span class="text-danger">@Html.ValidationSummary()</span>
+    <button class="btn btn-outline-primary">Save</button>
+
+</form>
