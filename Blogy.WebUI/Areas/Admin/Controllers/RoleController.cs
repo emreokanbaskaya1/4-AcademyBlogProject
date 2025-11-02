@@ -1,4 +1,6 @@
 ﻿using Blogy.Entity.Entities;
+using Blogy.WebUI.Consts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Blogy.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = $"{Roles.Admin}")]
     public class RoleController(RoleManager<AppRole> _roleManager) : Controller
     {
         public async Task<IActionResult> Index()
