@@ -1,0 +1,21 @@
+﻿@model ChangePasswordDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Password Change Page</h3>
+
+<form method="post">
+    <label>Current Password</label>
+    <input type="password" asp-for="CurrentPassword" class="form-control" required/>
+
+    <label>New Password</label>
+    <input type="password" asp-for="NewPassword" class="form-control" required/>
+
+    <label>Confirm Password</label>
+    <input type="password" asp-for="ConfirmPassword" class="form-control" required/>
+    <br />
+    <span class="text-danger">@Html.ValidationSummary()</span>
+    <button class="btn btn-outline-dark">Change Password</button>
+</form>
