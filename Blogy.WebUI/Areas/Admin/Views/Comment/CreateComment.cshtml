@@ -1,0 +1,21 @@
+﻿@model CreateCommentDto
+@{
+    ViewData["Title"] = "CreateComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create New Comments</h1>
+
+<form method="post" asp-action="CreateComment">
+    <label>Blog</label>
+    <select type="text" asp-for="BlogId" class="form-control" asp-items="@ViewBag.blogs"></select>
+    <span class="text-danger" asp-validation-for="BlogId"></span>
+    <br />
+
+    <label>Comment</label>
+    <textarea typeof="text" asp-for="Content" class="form-control" rows="5"></textarea>
+    <span class="text-danger" asp-validation-for = "Content"></span>
+
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
