@@ -25,7 +25,7 @@
         <tr>
             <th>@count</th>
             <td><img src="@item.CoverImage" style="height: 75px; width: 75px"/>@item.Title</td>
-            <td>@item.Description</td>
+            <td>@(item.Description.Length > 100 ? item.Description.Substring(0,100) + "...": item.Description)</td>
             <td>@item.Category.CategoryName</td>
             <td>
                 <a href="/Admin/Blog/DeleteBlog/@item.Id" onclick="return confirm('Are you sure you want to permanently delete this item?')" class="btn btn-danger">Delete</a>
