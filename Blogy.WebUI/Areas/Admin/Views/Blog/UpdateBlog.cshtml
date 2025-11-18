@@ -9,6 +9,8 @@
 
 <form method="post">
     <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="WriterId"/>
+    
     <div class="form-group">
         <label>Blog Title</label>
         <input type="text" asp-for="Title" class="form-control" />
@@ -41,7 +43,7 @@
 
     <div class="form-group">
         <label>Category</label>
-        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categories">
+        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.Categories">
             <option selected>Select Category</option>
         </select>
         <span class="text-danger" asp-validation-for="CategoryId"></span>
