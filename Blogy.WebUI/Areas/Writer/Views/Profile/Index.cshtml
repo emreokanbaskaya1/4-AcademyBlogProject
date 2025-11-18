@@ -1,0 +1,214 @@
+﻿@model EditProfileDto
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">My Profile</h1>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Profile Information</h6>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <!-- First Name -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="FirstName" class="font-weight-bold">First Name</label>
+                                <input type="text" class="form-control" asp-for="FirstName" placeholder="Enter your first name" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="LastName" class="font-weight-bold">Last Name</label>
+                                <input type="text" class="form-control" asp-for="LastName" placeholder="Enter your last name" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Username -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="UserName" class="font-weight-bold">Username</label>
+                                <input type="text" class="form-control" asp-for="UserName" placeholder="Enter username" />
+                                <span asp-validation-for="UserName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Email" class="font-weight-bold">Email</label>
+                                <input type="email" class="form-control" asp-for="Email" placeholder="Enter email address" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Phone Number -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PhoneNumber" class="font-weight-bold">Phone Number</label>
+                                <input type="tel" class="form-control" asp-for="PhoneNumber" placeholder="Enter phone number" />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <!-- Title -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Title" class="font-weight-bold">Title / Role</label>
+                                <input type="text" class="form-control" asp-for="Title" placeholder="e.g., Content Writer, Blogger" />
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Profile Image Upload -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="ImageFile" class="font-weight-bold">Profile Image</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" asp-for="ImageFile" id="customFile" accept="image/*">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                                <small class="form-text text-muted">Upload a profile image (JPG, PNG, GIF)</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Current Password (Required for security) -->
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="CurrentPassword" class="font-weight-bold">Current Password</label>
+                                <input type="password" class="form-control" asp-for="CurrentPassword" placeholder="Enter your current password to confirm changes" />
+                                <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                                <small class="form-text text-muted">Required to save changes</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Validation Summary -->
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error!</strong> @Html.ValidationSummary(false)
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+
+                    <!-- Buttons -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                        <a href="/Writer/Blog/Index" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Preview Card -->
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Profile Preview</h6>
+            </div>
+            <div class="card-body text-center">
+                @if (!string.IsNullOrEmpty(Model?.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="Profile Image" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                }
+                else
+                {
+                    <img src="~/startbootstrap-sb-admin-2-gh-pages/img/undraw_profile.svg" alt="Default Profile" class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px;">
+                }
+
+                <h5 class="font-weight-bold">@Model?.FirstName @Model?.LastName</h5>
+
+                @if (!string.IsNullOrEmpty(Model?.Title))
+                {
+                    <p class="text-muted mb-1">@Model.Title</p>
+                }
+
+                <p class="text-muted mb-0">
+                    <i class="fas fa-user"></i> @Model?.UserName
+                </p>
+
+                @if (!string.IsNullOrEmpty(Model?.Email))
+                {
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-envelope"></i> @Model.Email
+                    </p>
+                }
+
+                @if (!string.IsNullOrEmpty(Model?.PhoneNumber))
+                {
+                    <p class="text-muted mb-0">
+                        <i class="fas fa-phone"></i> @Model.PhoneNumber
+                    </p>
+                }
+            </div>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Profile Tips</h6>
+            </div>
+            <div class="card-body">
+                <ul class="small text-muted mb-0">
+                    <li>Keep your profile information up to date</li>
+                    <li>Use a professional profile image</li>
+                    <li>Your current password is required to save changes</li>
+                    <li>Profile image should be less than 2MB</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Custom file input label update
+        document.getElementById('customFile').addEventListener('change', function(e) {
+            var fileName = e.target.files[0]?.name || 'Choose file';
+            var label = e.target.nextElementSibling;
+            label.innerText = fileName;
+        });
+
+        // Image preview on file select
+        document.getElementById('customFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const previewImg = document.querySelector('.card-body.text-center img');
+                    if (previewImg) {
+                        previewImg.src = event.target.result;
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+}

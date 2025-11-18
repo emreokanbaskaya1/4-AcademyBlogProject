@@ -34,5 +34,10 @@ namespace Blogy.WebUI.Controllers
             var blog = await _blogService.GetSingleByIdAsync(id);
             return View(blog);
         }
+
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
     }
 }

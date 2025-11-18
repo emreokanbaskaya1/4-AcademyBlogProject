@@ -1,5 +1,6 @@
 ﻿using Blogy.Business.DTOs.UserDtos;
 using Blogy.Entity.Entities;
+using Blogy.WebUI.Consts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,9 @@ namespace Blogy.WebUI.Controllers
                 }
                 return View(model);
             }
+
+            // Kayıt başarılı olursa otomatik olarak "User" rolünü ata
+            await _userManager.AddToRoleAsync(user, Roles.User);
 
             return RedirectToAction("Index","Login");
         }

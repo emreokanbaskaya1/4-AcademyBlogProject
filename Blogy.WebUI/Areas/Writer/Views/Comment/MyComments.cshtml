@@ -1,0 +1,39 @@
+﻿@model List<ResultCommentDto>   
+@{
+    ViewData["Title"] = "My Comments";
+    Layout = "~/Views/Shared/Writer_Layout.cshtml";
+}
+
+<h1>My Comments</h1>
+
+<table class="table table-bordered table-hover">
+    <tr>
+        <th>#</th>
+        <th>Content</th>
+        <th>Blog</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    @{
+        int count = 0;
+    }
+    @foreach (var item in Model)
+    {
+        count++;
+        <tr>
+            <th>@count</th>
+            <td>@(item.Content.Length > 50 ? item.Content.Substring(0, 50) + "..." : item.Content)</td>
+            <td>@item.Blog.Title</td>
+            <td>@item.CreatedDate.ToShortDateString()</td>
+            <td>
+                <a href="/Writer/Comment/DeleteComment/@item.Id" 
+                   onclick="return confirm('Are you sure you want to delete this comment?')" 
+                   class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
+
+<a href="/Writer/Comment/CreateComment" class="btn btn-primary">Add New Comment</a>
+
