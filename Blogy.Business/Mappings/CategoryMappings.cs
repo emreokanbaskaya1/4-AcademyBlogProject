@@ -13,9 +13,9 @@ namespace Blogy.Business.Mappings
     {
         public CategoryMappings()
         {
-            CreateMap<Category, ResultCategoryDto>().ForMember(
-                dst => dst.CategoryName, 
-                o => o.MapFrom(src => src.Name));
+            CreateMap<Category, ResultCategoryDto>()
+                .ForMember(dst => dst.CategoryName, o => o.MapFrom(src => src.Name))
+                .ForMember(dst => dst.BlogCount, o => o.MapFrom(src => src.Blogs.Count));
             CreateMap<Category, UpdateCategoryDto>().ReverseMap();
             CreateMap<Category, CreateCategoryDto>().ReverseMap();
         }

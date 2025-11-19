@@ -1,0 +1,103 @@
+@model CreateCommentDto
+@{
+    ViewData["Title"] = "Create Comment";
+    Layout = "~/Views/Shared/Writer_Layout.cshtml";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Create New Comment</h1>
+    <a href="/Writer/Comment/MyComments" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to My Comments
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-success">Comment Information</h6>
+            </div>
+            <div class="card-body">
+                <form method="post" asp-action="CreateComment" asp-controller="Comment" asp-area="Writer">
+                    
+                    <div class="form-group">
+                        <label asp-for="BlogId" class="font-weight-bold">Select Blog</label>
+                        <select asp-for="BlogId" class="form-control" asp-items="@ViewBag.blogs">
+                            <option value="">-- Select a Blog --</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="BlogId"></span>
+                        <small class="form-text text-muted">Choose the blog post you want to comment on</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Content" class="font-weight-bold">Comment Content</label>
+                        <textarea asp-for="Content" class="form-control" rows="6" placeholder="Write your comment here..."></textarea>
+                        <span class="text-danger" asp-validation-for="Content"></span>
+                        <small class="form-text text-muted">Share your thoughts about this blog post</small>
+                    </div>
+
+                    <hr class="my-4">
+
+                    <div class="form-group text-right">
+                        <a href="/Writer/Comment/MyComments" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> Submit Comment
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-info">Tips</h6>
+            </div>
+            <div class="card-body">
+                <ul class="list-unstyled">
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <small>Be respectful and constructive</small>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <small>Stay on topic</small>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <small>Share your honest opinion</small>
+                    </li>
+                    <li class="mb-2">
+                        <i class="fas fa-check-circle text-success"></i>
+                        <small>Provide constructive feedback</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-warning">Quick Actions</h6>
+            </div>
+            <div class="card-body">
+                <a href="/Writer/Comment/MyComments" class="btn btn-outline-secondary btn-sm btn-block">
+                    <i class="fas fa-list"></i> View My Comments
+                </a>
+                <a href="/Writer/Blog/Index" class="btn btn-outline-success btn-sm btn-block">
+                    <i class="fas fa-newspaper"></i> View My Blogs
+                </a>
+                <a href="/Blog/Index" class="btn btn-outline-info btn-sm btn-block">
+                    <i class="fas fa-search"></i> Browse All Blogs
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

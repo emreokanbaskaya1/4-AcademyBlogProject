@@ -1,0 +1,64 @@
+﻿@model ChangePasswordDto
+@{
+    ViewData["Title"] = "Change Password";
+}
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Change Password</h1>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-info">Update Your Password</h6>
+            </div>
+            <div class="card-body">
+                @if (ViewBag.SuccessMessage != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle"></i> @ViewBag.SuccessMessage
+                        <button type="button" class="close" data-dismiss="alert">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                }
+
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <form method="post">
+                    <div class="form-group">
+                        <label asp-for="CurrentPassword">Current Password</label>
+                        <input type="password" class="form-control" asp-for="CurrentPassword" placeholder="Enter your current password" />
+                        <span asp-validation-for="CurrentPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="NewPassword">New Password</label>
+                        <input type="password" class="form-control" asp-for="NewPassword" placeholder="Enter new password" />
+                        <span asp-validation-for="NewPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ConfirmPassword">Confirm New Password</label>
+                        <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Re-enter new password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-info btn-block">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                        <a href="/User/Profile/Index" class="btn btn-secondary btn-block mt-2">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

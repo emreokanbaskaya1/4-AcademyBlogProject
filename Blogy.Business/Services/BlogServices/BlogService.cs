@@ -56,7 +56,8 @@ namespace Blogy.Business.Services.BlogServices
 
         public async Task<ResultBlogDto> GetSingleByIdAsync(int id)
         {
-            var value = await _blogRepository.GetByIdAsync(id);
+            // Özel metod ile tüm navigation property'leri yükle
+            var value = await _blogRepository.GetBlogDetailsByIdAsync(id);
             return _mapper.Map<ResultBlogDto>(value);
         }
 

@@ -1,19 +1,16 @@
 ﻿@model List<ResultCommentDto>
 @{
     ViewData["Title"] = "My Comments";
-    Layout = "~/Views/Shared/Writer_Layout.cshtml";
+    Layout = "~/Views/Shared/User_Layout.cshtml";
 }
+
+<h1>My Comments</h1>
 
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
     <h1 class="h3 mb-0 text-gray-800">My Comments</h1>
-    <div>
-        <a href="/Writer/Comment/CreateComment" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mr-2">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Add New Comment
-        </a>
-        <a href="/Blog/Index" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
-            <i class="fas fa-search fa-sm text-white-50"></i> Browse Blogs
-        </a>
-    </div>
+    <a href="/Blog/Index" class="d-none d-sm-inline-block btn btn-sm btn-info shadow-sm">
+        <i class="fas fa-search fa-sm text-white-50"></i> Browse Blogs
+    </a>
 </div>
 
 @if (Model == null || !Model.Any())
@@ -22,8 +19,7 @@
         <div class="card-body text-center py-5">
             <i class="fas fa-comments fa-3x text-gray-300 mb-3"></i>
             <p class="text-gray-500 mb-3">You haven't made any comments yet.</p>
-            <a href="/Writer/Comment/CreateComment" class="btn btn-success mr-2">Create Comment</a>
-            <a href="/Blog/Index" class="btn btn-info">Browse Blogs</a>
+            <a href="/Blog/Index" class="btn btn-info">Browse Blogs to Comment</a>
         </div>
     </div>
 }
@@ -31,7 +27,7 @@ else
 {
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-success">My Comments (@Model.Count total)</h6>
+            <h6 class="m-0 font-weight-bold text-info">My Comments (@Model.Count total)</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -68,7 +64,7 @@ else
                                     @if (item.Content.Length > 100)
                                     {
                                         <span>@item.Content.Substring(0, 100)...</span>
-                                        <a href="#" data-toggle="modal" data-target="#commentModal@item.Id" class="text-success">
+                                        <a href="#" data-toggle="modal" data-target="#commentModal@item.Id" class="text-info">
                                             Read more
                                         </a>
                                     }
@@ -88,7 +84,7 @@ else
                                     <a href="/Blog/BlogDetails/@item.BlogId" class="btn btn-sm btn-info" title="View Blog" target="_blank">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="/Writer/Comment/DeleteComment/@item.Id" 
+                                    <a href="/User/Comment/DeleteComment/@item.Id" 
                                        onclick="return confirm('Are you sure you want to delete this comment?')" 
                                        class="btn btn-sm btn-danger" 
                                        title="Delete">
@@ -129,14 +125,14 @@ else
         </div>
     </div>
 
-    <!-- Statistics Cards -->
+    <!-- Statistics Card -->
     <div class="row">
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-success shadow h-100 py-2">
+            <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Comments</div>
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Comments</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Count</div>
                         </div>
                         <div class="col-auto">
@@ -148,11 +144,11 @@ else
         </div>
 
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Blogs Commented</div>
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Blogs Commented</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.Select(x => x.BlogId).Distinct().Count()</div>
                         </div>
                         <div class="col-auto">
@@ -164,11 +160,11 @@ else
         </div>
 
         <div class="col-xl-4 col-md-6 mb-4">
-            <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Latest Comment</div>
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Latest Comment</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 <small>@Model.Max(x => x.CreatedDate).ToShortDateString()</small>
                             </div>

@@ -10,5 +10,6 @@ namespace Blogy.DataAccess.Repositories.TagRepositories
 {
     public interface ITagRepository : IGenericRepository<Tag>
     {
+        Task<List<Tag>> GetAllWithBlogCountAsync();
     }
 }

@@ -20,5 +20,17 @@ namespace Blogy.DataAccess.Repositories.BlogRepositories
         {
             return await _table.OrderByDescending(x=>x.Id).Take(3).ToListAsync();
         }
+
+        public async Task<Blog> GetBlogDetailsByIdAsync(int id)
+        {
+            return await _table
+                .Include(x => x.Category)          // Category bilgilerini yükle
+                .Include(x => x.Writer)            // Writer bilgilerini yükle
+                .Include(x => x.Comments)          // Comment'leri yükle
+                    .ThenInclude(c => c.User)      // Her comment'in User bilgisini yükle
+                .Include(x => x.BlogTags)          // BlogTags'leri yükle
+                    .ThenInclude(bt => bt.Tag)     // Her BlogTag'in Tag bilgisini yükle
+                .FirstOrDefaultAsync(x => x.Id == id);
+        }
     }
 }

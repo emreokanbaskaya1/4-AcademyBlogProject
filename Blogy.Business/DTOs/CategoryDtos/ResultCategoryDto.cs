@@ -7,5 +7,6 @@ namespace Blogy.Business.DTOs.CategoryDtos
     {
         public string CategoryName { get; set; }
         public IList<ResultBlogDto> Blogs  { get; set; }
+        public int BlogCount { get; set; }
     }
 }
