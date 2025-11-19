@@ -1,0 +1,44 @@
+@model CreateSocialDto
+@{
+    ViewData["Title"] = "Add Social Media Link";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add New Social Media Link</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateSocial" method="post">
+            <div class="form-group">
+                <label asp-for="Name">Platform Name</label>
+                <input asp-for="Name" class="form-control" placeholder="e.g., Instagram, Twitter, Facebook" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Url">URL</label>
+                <input asp-for="Url" class="form-control" placeholder="https://..." />
+                <span asp-validation-for="Url" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Icon">Icon Class</label>
+                <input asp-for="Icon" class="form-control" placeholder="e.g., icon-instagram, icon-twitter, icon-facebook" />
+                <span asp-validation-for="Icon" class="text-danger"></span>
+                <small class="form-text text-muted">
+                    Available icons: icon-instagram, icon-twitter, icon-facebook, icon-linkedin, icon-pinterest, icon-dribbble
+                </small>
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-success">Create</button>
+                <a href="/Admin/Social/Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

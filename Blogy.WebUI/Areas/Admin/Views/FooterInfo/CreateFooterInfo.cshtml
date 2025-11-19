@@ -1,0 +1,35 @@
+@model CreateFooterInfoDto
+@{
+    ViewData["Title"] = "Create Footer Information";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Create Footer Information</h6>
+    </div>
+    <div class="card-body">
+        <form asp-action="CreateFooterInfo" method="post">
+            <div class="form-group">
+                <label asp-for="AboutText">About Text</label>
+                <textarea asp-for="AboutText" class="form-control" rows="4" placeholder="Enter about text for footer..."></textarea>
+                <span asp-validation-for="AboutText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CopyrightText">Copyright Text</label>
+                <input asp-for="CopyrightText" class="form-control" placeholder="Copyright © 2025. All Rights Reserved." />
+                <span asp-validation-for="CopyrightText" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-success">Create</button>
+                <a href="/Admin/FooterInfo/Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

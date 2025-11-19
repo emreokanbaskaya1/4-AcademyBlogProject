@@ -1,0 +1,112 @@
+@using Blogy.Business.DTOs.SocialDtos
+@using Blogy.Business.DTOs.FooterInfoDtos
+
+<footer class="site-footer" style="padding: 3rem 0 2rem 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="widget">
+                    <h3 class="mb-3">About</h3>
+                    <p style="font-size: 0.9rem;">@(ViewBag.FooterInfo != null ? ViewBag.FooterInfo.AboutText : "Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.")</p>
+                </div>
+                <div class="widget">
+                    <h3>Social</h3>
+                    <ul class="list-unstyled social">
+                        @if (ViewBag.Socials != null)
+                        {
+                            @foreach (ResultSocialDto social in ViewBag.Socials)
+                            {
+                                <li><a href="@social.Url" target="_blank"><span class="@social.Icon"></span></a></li>
+                            }
+                        }
+                        else
+                        {
+                            <li><a href="#"><span class="icon-instagram"></span></a></li>
+                            <li><a href="#"><span class="icon-twitter"></span></a></li>
+                            <li><a href="#"><span class="icon-facebook"></span></a></li>
+                            <li><a href="#"><span class="icon-linkedin"></span></a></li>
+                            <li><a href="#"><span class="icon-pinterest"></span></a></li>
+                            <li><a href="#"><span class="icon-dribbble"></span></a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 ps-lg-5">
+                <div class="widget">
+                    <h3 class="mb-3">Company</h3>
+                    <ul class="list-unstyled float-start links" style="font-size: 0.9rem;">
+                        <li><a href="/About/Index">About us</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">Vision</a></li>
+                        <li><a href="#">Mission</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Privacy</a></li>
+                    </ul>
+                    <ul class="list-unstyled float-start links" style="font-size: 0.9rem;">
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Business</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="/Blog/Index">Blog</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Creative</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="widget">
+                    <h3 class="mb-3">Recent Post Entry</h3>
+                    <div class="post-entry-footer">
+                        <ul>
+                            @if (ViewBag.LatestBlogs != null && ViewBag.LatestBlogs.Count > 0)
+                            {
+                                @foreach (var blog in ViewBag.LatestBlogs)
+                                {
+                                    <li>
+                                        <a href="/Blog/BlogDetails/@blog.Id">
+                                            <img src="@blog.CoverImage" alt="@blog.Title" class="me-3 rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                            <div class="text">
+                                                <h4 style="font-size: 0.95rem;">@(blog.Title.Length > 50 ? blog.Title.Substring(0, 50) + "..." : blog.Title)</h4>
+                                                <div class="post-meta">
+                                                    <span class="mr-2" style="font-size: 0.8rem;">@blog.CreatedDate.ToShortDateString()</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                }
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="">
+                                        <img src="~/blogy-1.0.0/images/img_1_sq.jpg" alt="Image placeholder" class="me-3 rounded" style="width: 60px; height: 60px; object-fit: cover;">
+                                        <div class="text">
+                                            <h4 style="font-size: 0.95rem;">There's a Cool New Way for Men to Wear Socks</h4>
+                                            <div class="post-meta">
+                                                <span class="mr-2" style="font-size: 0.8rem;">March 15, 2018</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p style="font-size: 0.85rem; margin: 0;">
+                    @if (ViewBag.FooterInfo != null)
+                    {
+                        @Html.Raw(ViewBag.FooterInfo.CopyrightText)
+                    }
+                    else
+                    {
+                        <text>Copyright &copy;<script>document.write(new Date().getFullYear());</script>. All Rights Reserved. &mdash; Designed with love by <a href="https://untree.co">Untree.co</a>  Distributed by <a href="https://themewagon.com">ThemeWagon</a></text>
+                    }
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -73,6 +73,38 @@
                 </a>
             </li>
 
+            <!-- Nav Item - About -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "About" ? "active" : "")">
+                <a class="nav-link" href="/Admin/About/Index">
+                    <i class="fas fa-fw fa-info-circle"></i>
+                    <span>About Sections</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Team Members -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "TeamMember" ? "active" : "")">
+                <a class="nav-link" href="/Admin/TeamMember/Index">
+                    <i class="fas fa-fw fa-users-cog"></i>
+                    <span>Team Members</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Social Media -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Social" ? "active" : "")">
+                <a class="nav-link" href="/Admin/Social/Index">
+                    <i class="fas fa-fw fa-share-alt"></i>
+                    <span>Social Media</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Footer Info -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "FooterInfo" ? "active" : "")">
+                <a class="nav-link" href="/Admin/FooterInfo/Index">
+                    <i class="fas fa-fw fa-info"></i>
+                    <span>Footer Info</span>
+                </a>
+            </li>
+
             <!-- Nav Item - Users -->
             <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active" : "")">
                 <a class="nav-link" href="/Admin/Users/Index">
@@ -115,6 +147,14 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Nav Item - Go to Website -->
+            <li class="nav-item">
+                <a class="nav-link" href="/Default/Index" target="_blank">
+                    <i class="fas fa-fw fa-globe"></i>
+                    <span>View Website</span>
+                </a>
+            </li>
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -223,6 +263,11 @@
                                 <a class="dropdown-item" href="/Admin/ChangePassword/Index">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Default/Index" target="_blank">
+                                    <i class="fas fa-globe fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    View Website
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
