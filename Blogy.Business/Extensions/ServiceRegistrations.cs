@@ -13,12 +13,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Blogy.Business.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Blogy.Business.Extensions
 {
     public static class ServiceRegistrations
     {
-        public static void AddServicesExt(this IServiceCollection services)
+        public static void AddServicesExt(this IServiceCollection services, IConfiguration configuration)
         {
 
             services.Scan(opt =>
@@ -32,16 +34,14 @@ namespace Blogy.Business.Extensions
 
             });
 
-
+            // OpenAI yapılandırması (Chat + Moderation için)
+            services.Configure<OpenAISettings>(configuration.GetSection("OpenAI"));
 
             services.AddAutoMapper(typeof(CategoryMappings).Assembly);
 
             services.AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters()
                 .AddValidatorsFromAssembly(typeof(CreateCategoryValidator).Assembly);
-
-
-
         }
     }
 }

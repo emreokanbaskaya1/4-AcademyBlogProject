@@ -5,6 +5,34 @@
 }
 
 <h3>Create New Blog</h3>
+
+<!-- AI Content Generation Section -->
+<div class="card mb-4 bg-light">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">🤖 Generate Content with AI</h5>
+    </div>
+    <div class="card-body">
+        <div class="form-group">
+            <label for="aiKeywords"><strong>Keywords:</strong></label>
+            <input type="text" id="aiKeywords" class="form-control" placeholder="e.g., ASP.NET Core, MVC, Web Development" />
+            <small class="form-text text-muted">You can enter multiple keywords separated by commas</small>
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="aiShortDescription"><strong>Short Description:</strong></label>
+            <textarea id="aiShortDescription" class="form-control" rows="2" placeholder="Briefly describe the main topic of the article..."></textarea>
+        </div>
+
+        <button type="button" id="btnGenerateContent" class="btn btn-success mt-3">
+            <span id="btnText">Generate Content</span>
+            <span id="btnSpinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+        </button>
+
+        <div id="aiError" class="alert alert-danger mt-3 d-none" role="alert"></div>
+    </div>
+</div>
+
+<!-- Blog Creation Form -->
 <form method="post">
     <div class="form-group">
         <label>Blog Title</label>
@@ -14,7 +42,7 @@
 
     <div class="form-group">
         <label>Description</label>
-        <textarea typeof="text" asp-for="Description" class="form-control" rows="6"></textarea>
+        <textarea typeof="text" asp-for="Description" id="blogDescription" class="form-control" rows="6"></textarea>
         <span class="text-danger" asp-validation-for="Description"></span>
     </div>
 
@@ -47,3 +75,73 @@
     <button class="btn btn-primary" mt-2>Save</button>
 
 </form>
+
+@section Scripts {
+    <script>
+        // AI Content Generation JavaScript
+        document.getElementById('btnGenerateContent').addEventListener('click', async function() {
+            // Get input values
+            const keywords = document.getElementById('aiKeywords').value.trim();
+            const shortDescription = document.getElementById('aiShortDescription').value.trim();
+            
+            // Hide error message
+            const errorDiv = document.getElementById('aiError');
+            errorDiv.classList.add('d-none');
+
+            // Validation
+            if (!keywords || !shortDescription) {
+                errorDiv.textContent = 'Please fill in both keywords and short description fields!';
+                errorDiv.classList.remove('d-none');
+                return;
+            }
+
+            // Change button state (loading state)
+            const btn = document.getElementById('btnGenerateContent');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            
+            btn.disabled = true;
+            btnText.textContent = ' Generating Content...';
+            btnSpinner.classList.remove('d-none');
+
+            try {
+                // Send POST request to API
+                const response = await fetch('/Admin/Blog/GenerateArticle', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
+                    },
+                    body: JSON.stringify({
+                        keywords: keywords,
+                        shortDescription: shortDescription
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Write generated content to Description field
+                    document.getElementById('blogDescription').value = result.content;
+                    
+                    // Success message
+                    alert('✅ Article successfully generated! Check the Description field.');
+                } else {
+                    // Show error message
+                    errorDiv.textContent = result.message || 'Article could not be generated.';
+                    errorDiv.classList.remove('d-none');
+                }
+            } catch (error) {
+                // Network error
+                errorDiv.textContent = 'Connection error occurred. Please try again.';
+                errorDiv.classList.remove('d-none');
+                console.error('AI Content Generation Error:', error);
+            } finally {
+                // Reset button state
+                btn.disabled = false;
+                btnText.textContent = '✨ Generate Content';
+                btnSpinner.classList.add('d-none');
+            }
+        });
+    </script>
+}

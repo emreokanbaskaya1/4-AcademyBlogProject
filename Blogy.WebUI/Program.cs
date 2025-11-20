@@ -1,14 +1,20 @@
 using Blogy.Business.Extensions;
 using Blogy.DataAccess.Extensions;
 using Blogy.WebUI.Filters;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Kestrel ayarlarý (HTTP 431 hatasý çözümü)
+builder.Services.Configure<KestrelServerOptions>(options =>
+{
+    options.Limits.MaxRequestHeadersTotalSize = 64 * 1024; // 64KB (varsayýlan 32KB)
+    options.Limits.MaxRequestLineSize = 16 * 1024; // 16KB (varsayýlan 8KB)
+});
+
 // Add services to the container.
 
-
-
-builder.Services.AddServicesExt();  //Service registration Business
+builder.Services.AddServicesExt(builder.Configuration);  //Service registration Business - Configuration parametresi eklendi
 builder.Services.AddRepositoriesExt(builder.Configuration); //  Service registration Data Access
 
 

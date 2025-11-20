@@ -1,0 +1,43 @@
+@model List<ResultContactInfoDto>
+@{
+    ViewData["Title"] = "Contact Information Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Contact Information</h3>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Location</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+        }
+        @foreach (var item in Model)
+        {
+            count++;
+            <tr>
+                <th>@count</th>
+                <td>@(item.Location.Length > 50 ? item.Location.Substring(0, 50) + "..." : item.Location)</td>
+                <td>@item.Email</td>
+                <td>@item.Phone</td>
+                <td>
+                    <a href="/Admin/ContactInfo/DeleteContactInfo/@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                    <a href="/Admin/ContactInfo/UpdateContactInfo/@item.Id" class="btn btn-info btn-sm">Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.Count == 0)
+{
+    <a href="/Admin/ContactInfo/CreateContactInfo" class="btn btn-primary">Create Contact Information</a>
+}

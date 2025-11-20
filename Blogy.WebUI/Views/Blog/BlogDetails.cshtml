@@ -88,6 +88,48 @@
 
                     <div class="comment-form-wrap pt-5">
                         <h3 class="mb-5">Leave a comment</h3>
+                        
+                        <!-- Toxicity Error Alert (OpenAI Moderation) -->
+                        @if (TempData["ToxicityError"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>🚫 Inappropriate Content Detected!</strong><br/>
+                                @TempData["ToxicityError"]
+                                @if (TempData["ToxicityScore"] != null)
+                                {
+                                    <br/><small>Content Safety Score: @TempData["ToxicityScore"]</small>
+                                }
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Success Alert -->
+                        @if (TempData["CommentSuccess"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong>✅ Success!</strong> @TempData["CommentSuccess"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Warning Alert (Rate Limit - yorum yine de kaydedildi) -->
+                        @if (TempData["CommentWarning"] != null)
+                        {
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <strong>⚠️ Notice!</strong> @TempData["CommentWarning"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Error Alert (Genel hatalar) -->
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>❌ Error!</strong> @TempData["Error"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
                         @if (User.Identity.IsAuthenticated)
                         {
                             <form asp-controller="Blog" asp-action="AddComment" method="post" class="p-5 bg-light">
@@ -95,6 +137,9 @@
                                 <div class="form-group">
                                     <label for="Content">Your Comment *</label>
                                     <textarea name="Content" id="Content" cols="30" rows="10" class="form-control" required></textarea>
+                                    <small class="form-text text-muted">
+                                        <i class="fas fa-shield-alt"></i> Your comment will be analyzed by AI (OpenAI Moderation) to ensure community safety.
+                                    </small>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Post Comment</button>
                             </form>

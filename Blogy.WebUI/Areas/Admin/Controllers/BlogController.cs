@@ -1,6 +1,8 @@
 ﻿using Blogy.Business.DTOs.BlogDtos;
+using Blogy.Business.DTOs.OpenAIDtos;
 using Blogy.Business.Services.BlogServices;
 using Blogy.Business.Services.CategoryServices;
+using Blogy.Business.Services.OpenAIServices;
 using Blogy.Entity.Entities;
 using Blogy.WebUI.Consts;
 using Microsoft.AspNetCore.Authorization;
@@ -12,18 +14,25 @@ namespace Blogy.WebUI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = $"{Roles.Admin}")]
-    public class BlogController(IBlogService _blogService, ICategoryService _categoryService, UserManager<AppUser> _userManager) : Controller
+    public class BlogController : Controller
     {
-        private async Task GetCategoriesAsync()
+        private readonly IBlogService _blogService;
+        private readonly ICategoryService _categoryService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IOpenAIService _openAIService;
+
+        public BlogController(
+            IBlogService blogService, 
+            ICategoryService categoryService, 
+            UserManager<AppUser> userManager,
+            IOpenAIService openAIService)
         {
-            var categories = await _categoryService.GetAllAsync();
-            ViewBag.Categories = (from category in categories
-                                  select new SelectListItem
-                                  {
-                                      Text = category.CategoryName,
-                                      Value = category.Id.ToString()
-                                  }).ToList();
+            _blogService = blogService;
+            _categoryService = categoryService;
+            _userManager = userManager;
+            _openAIService = openAIService;
         }
+
         public async Task<IActionResult> Index()
         {
             var blogs = await _blogService.GetAllAsync(); //Lazy loading
@@ -81,6 +90,59 @@ namespace Blogy.WebUI.Areas.Admin.Controllers
 
             await _blogService.UpdateAsync(updateBlogDto);
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Generates blog article content using AI
+        /// </summary>
+        [HttpPost]
+        public async Task<IActionResult> GenerateArticle([FromBody] GenerateArticleRequestDto request)
+        {
+            try
+            {
+                // Validation
+                if (string.IsNullOrWhiteSpace(request.Keywords) || string.IsNullOrWhiteSpace(request.ShortDescription))
+                {
+                    return Json(new 
+                    { 
+                        success = false, 
+                        message = "Keywords and short description fields are required." 
+                    });
+                }
+
+                // Generate article with AI
+                var generatedContent = await _openAIService.GenerateArticleAsync(
+                    request.Keywords, 
+                    request.ShortDescription
+                );
+
+                // Return success result
+                return Json(new 
+                { 
+                    success = true, 
+                    content = generatedContent 
+                });
+            }
+            catch (Exception ex)
+            {
+                // Return error message to user
+                return Json(new 
+                { 
+                    success = false, 
+                    message = $"Error generating article: {ex.Message}" 
+                });
+            }
+        }
+
+        private async Task GetCategoriesAsync()
+        {
+            var categories = await _categoryService.GetAllAsync();
+            ViewBag.Categories = (from category in categories
+                                  select new SelectListItem
+                                  {
+                                      Text = category.CategoryName,
+                                      Value = category.Id.ToString()
+                                  }).ToList();
         }
     }
 }

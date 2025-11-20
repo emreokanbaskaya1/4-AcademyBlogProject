@@ -105,6 +105,22 @@
                 </a>
             </li>
 
+            <!-- Nav Item - Contact Info -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "ContactInfo" ? "active" : "")">
+                <a class="nav-link" href="/Admin/ContactInfo/Index">
+                    <i class="fas fa-fw fa-address-card"></i>
+                    <span>Contact Info</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Contact Messages -->
+            <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "ContactMessage" ? "active" : "")">
+                <a class="nav-link" href="/Admin/ContactMessage/Index">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </li>
+
             <!-- Nav Item - Users -->
             <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active" : "")">
                 <a class="nav-link" href="/Admin/Users/Index">

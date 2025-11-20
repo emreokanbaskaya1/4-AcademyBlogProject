@@ -24,5 +24,7 @@ namespace Blogy.DataAccess.Context
         public DbSet<About> Abouts { get; set; }
         public DbSet<TeamMember> TeamMembers { get; set; }
         public DbSet<FooterInfo> FooterInfos { get; set; }
+        public DbSet<ContactInfo> ContactInfos { get; set; }
+        public DbSet<ContactMessage> ContactMessages { get; set; }
     }
 }

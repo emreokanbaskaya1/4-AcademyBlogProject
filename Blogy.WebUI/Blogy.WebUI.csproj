@@ -14,6 +14,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
+    <PackageReference Include="OpenAI" Version="2.7.0" />
     <PackageReference Include="PagedList.Core.Mvc" Version="3.0.0" />
   </ItemGroup>
 
@@ -28,6 +29,7 @@
     <Folder Include="Areas\User\Models\" />
     <Folder Include="Areas\Writer\Data\" />
     <Folder Include="Areas\Writer\Models\" />
+    <Folder Include="Views\ToxicityTest\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
