@@ -5,8 +5,6 @@
 
 A professional blog management platform built with **ASP.NET Core 9.0**, featuring **AI-powered content generation** and **automated comment moderation** using OpenAI APIs.
 
-![Blogy Platform](https://via.placeholder.com/1200x400/4A90E2/ffffff?text=Blogy+-+AI-Powered+Blog+Platform)
-
 ## 🌟 Key Features
 
 ### 🤖 AI Integration
