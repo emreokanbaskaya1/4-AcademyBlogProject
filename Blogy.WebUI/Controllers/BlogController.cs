@@ -42,7 +42,7 @@ namespace Blogy.WebUI.Controllers
             _toxicityService = toxicityService;
         }
 
-        public async Task<IActionResult> Index(int page = 1, int pageSize = 2)
+        public async Task<IActionResult> Index(int page = 1, int pageSize = 4)
         {
             var blogs = await _blogService.GetAllAsync();
             var values = new PagedList<ResultBlogDto>(blogs.AsQueryable(), page, pageSize);

@@ -14,8 +14,15 @@
 
             <div class="form-group">
                 <label asp-for="AboutText">About Text</label>
-                <textarea asp-for="AboutText" class="form-control" rows="4"></textarea>
+                <div class="input-group">
+                    <textarea asp-for="AboutText" class="form-control" rows="4" id="aboutTextArea"></textarea>
+                </div>
                 <span asp-validation-for="AboutText" class="text-danger"></span>
+                
+                <!-- AI Generate Button -->
+                <button type="button" class="btn btn-info btn-sm mt-2" data-toggle="modal" data-target="#aiGenerateModal">
+                    <i class="fas fa-robot"></i> Generate with AI
+                </button>
             </div>
 
             <div class="form-group">
@@ -32,6 +39,115 @@
     </div>
 </div>
 
+<!-- AI Generate Modal -->
+<div class="modal fade" id="aiGenerateModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-robot text-info"></i> Generate About Text with AI
+                </h5>
+                <button type="button" class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="companyName">Company/Blog Name</label>
+                    <input type="text" class="form-control" id="companyName" placeholder="e.g., Blogy" />
+                </div>
+                <div class="form-group">
+                    <label for="keywords">Keywords (comma separated)</label>
+                    <input type="text" class="form-control" id="keywords" placeholder="e.g., technology, blog, community" />
+                    <small class="form-text text-muted">Enter keywords that describe your company/blog</small>
+                </div>
+                <div id="aiLoadingSpinner" class="text-center" style="display:none;">
+                    <div class="spinner-border text-info" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <p class="mt-2">AI is generating your about text...</p>
+                </div>
+                <div id="aiErrorMessage" class="alert alert-danger" style="display:none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-info" id="generateBtn">
+                    <i class="fas fa-magic"></i> Generate
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        $(document).ready(function () {
+            // Generate butonuna týklandýðýnda
+            $('#generateBtn').click(function () {
+                var companyName = $('#companyName').val().trim();
+                var keywords = $('#keywords').val().trim();
+
+                // Validation
+                if (!companyName || !keywords) {
+                    $('#aiErrorMessage')
+                        .text('Please fill in both fields!')
+                        .show();
+                    return;
+                }
+
+                // Hide error, show loading
+                $('#aiErrorMessage').hide();
+                $('#aiLoadingSpinner').show();
+                $('#generateBtn').prop('disabled', true);
+
+                // AJAX request to generate about text
+                $.ajax({
+                    url: '/Admin/FooterInfo/GenerateAboutText',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        companyName: companyName,
+                        keywords: keywords
+                    }),
+                    success: function (response) {
+                        $('#aiLoadingSpinner').hide();
+                        $('#generateBtn').prop('disabled', false);
+
+                        if (response.success) {
+                            // About text'i textarea'ya yerleþtir
+                            $('#aboutTextArea').val(response.aboutText);
+                            
+                            // Modal'ý kapat
+                            $('#aiGenerateModal').modal('hide');
+                            
+                            // Success notification
+                            alert('? About text generated successfully!');
+                        } else {
+                            $('#aiErrorMessage')
+                                .text(response.message)
+                                .show();
+                        }
+                    },
+                    error: function () {
+                        $('#aiLoadingSpinner').hide();
+                        $('#generateBtn').prop('disabled', false);
+                        $('#aiErrorMessage')
+                            .text('An error occurred. Please try again.')
+                            .show();
+                    }
+                });
+            });
+
+            // Modal kapandýðýnda form temizle
+            $('#aiGenerateModal').on('hidden.bs.modal', function () {
+                $('#companyName').val('');
+                $('#keywords').val('');
+                $('#aiErrorMessage').hide();
+                $('#aiLoadingSpinner').hide();
+                $('#generateBtn').prop('disabled', false);
+            });
+        });
+    </script>
 }

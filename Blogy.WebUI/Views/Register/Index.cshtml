@@ -1,41 +1,305 @@
 ﻿@model RegisterDto
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Register";
     Layout = "~/Views/UILayout/Index.cshtml";
 }
-<div class="container">
-<h3> New User Register</h3>
 
-<form method="post">
-    <div class="form-group">
-        <label>Name:</label>
-        <input type="text" class="form-control" asp-for="FirstName" required/>
-    </div>
-    <div class="form-group">
-        <label>Surname:</label>
-        <input type="text" class="form-control" asp-for="LastName" required/>
-    </div>
-    <div class="form-group">
-        <label>Username:</label>
-        <input type="text" class="form-control" asp-for="Username" required/>
-    </div>
-    <div class="form-group">
-        <label>Email:</label>
-        <input type="email" class="form-control" asp-for="Email" required/>
-    </div>
-    <div class="form-group">
-        <label>Password:</label>
-        <input type="password" class="form-control" asp-for="Password" required/>
-    </div>
-    <div class="form-group">
-        <label>Confirm Password:</label>
-        <input type="password" class="form-control" asp-for="ConfirmPassword" required/>
-    </div>
-    <br />
-    <span class="text-danger">@Html.ValidationSummary()</span>
-    <button class="btn btn-outline-primary">Sign Up</button>
+<!-- Custom CSS for Register Page -->
+<style>
+    .register-wrapper {
+        min-height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px 0;
+    }
 
+    .register-card {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        max-width: 550px;
+        width: 100%;
+    }
 
-</form>
+    .register-header {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 40px 30px;
+        text-align: center;
+    }
 
+    .register-header i {
+        font-size: 50px;
+        margin-bottom: 15px;
+    }
+
+    .register-header h2 {
+        margin: 0;
+        font-size: 28px;
+        font-weight: 700;
+    }
+
+    .register-header p {
+        margin: 10px 0 0 0;
+        opacity: 0.9;
+        font-size: 14px;
+    }
+
+    .register-body {
+        padding: 40px 30px;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 14px;
+    }
+
+    .input-group-custom {
+        position: relative;
+    }
+
+    .input-group-custom i {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #999;
+        font-size: 16px;
+    }
+
+    .input-group-custom input {
+        padding-left: 45px;
+        height: 50px;
+        border: 2px solid #e0e0e0;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        font-size: 15px;
+    }
+
+    .input-group-custom input:focus {
+        border-color: #f5576c;
+        box-shadow: 0 0 0 0.2rem rgba(245, 87, 108, 0.15);
+    }
+
+    .form-row-custom {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .btn-register {
+        width: 100%;
+        height: 50px;
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        margin-top: 10px;
+    }
+
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(245, 87, 108, 0.4);
+        color: white;
+    }
+
+    .register-footer {
+        text-align: center;
+        padding: 20px 30px 30px;
+        color: #666;
+        font-size: 14px;
+    }
+
+    .register-footer a {
+        color: #f5576c;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .register-footer a:hover {
+        text-decoration: underline;
+    }
+
+    .alert-custom {
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: none;
+        background-color: #fee;
+        color: #c33;
+    }
+
+    /* Animation */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .register-card {
+        animation: fadeInUp 0.6s ease;
+    }
+
+    @@media (max-width: 768px) {
+        .form-row-custom {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="register-card">
+                    <!-- Header -->
+                    <div class="register-header">
+                        <i class="fas fa-user-plus"></i>
+                        <h2>Create Account</h2>
+                        <p>Join our community today!</p>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="register-body">
+                        <form method="post">
+                            <!-- Error Messages -->
+                            @if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert-custom">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                    @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+                                </div>
+                            }
+
+                            <!-- Name and Surname Row -->
+                            <div class="form-row-custom">
+                                <div class="form-group">
+                                    <label for="firstName">
+                                        <i class="fas fa-user me-1"></i> First Name
+                                    </label>
+                                    <div class="input-group-custom">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="firstName"
+                                               asp-for="FirstName" 
+                                               placeholder="John"
+                                               required 
+                                               autofocus />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName">
+                                        <i class="fas fa-user me-1"></i> Last Name
+                                    </label>
+                                    <div class="input-group-custom">
+                                        <i class="fas fa-user"></i>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="lastName"
+                                               asp-for="LastName" 
+                                               placeholder="Doe"
+                                               required />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Username Field -->
+                            <div class="form-group">
+                                <label for="username">
+                                    <i class="fas fa-at me-1"></i> Username
+                                </label>
+                                <div class="input-group-custom">
+                                    <i class="fas fa-at"></i>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="username"
+                                           asp-for="Username" 
+                                           placeholder="johndoe"
+                                           required />
+                                </div>
+                            </div>
+
+                            <!-- Email Field -->
+                            <div class="form-group">
+                                <label for="email">
+                                    <i class="fas fa-envelope me-1"></i> Email Address
+                                </label>
+                                <div class="input-group-custom">
+                                    <i class="fas fa-envelope"></i>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email"
+                                           asp-for="Email" 
+                                           placeholder="john@example.com"
+                                           required />
+                                </div>
+                            </div>
+
+                            <!-- Password Field -->
+                            <div class="form-group">
+                                <label for="password">
+                                    <i class="fas fa-lock me-1"></i> Password
+                                </label>
+                                <div class="input-group-custom">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="password"
+                                           asp-for="Password" 
+                                           placeholder="Enter a strong password"
+                                           required />
+                                </div>
+                            </div>
+
+                            <!-- Confirm Password Field -->
+                            <div class="form-group">
+                                <label for="confirmPassword">
+                                    <i class="fas fa-lock me-1"></i> Confirm Password
+                                </label>
+                                <div class="input-group-custom">
+                                    <i class="fas fa-lock"></i>
+                                    <input type="password" 
+                                           class="form-control" 
+                                           id="confirmPassword"
+                                           asp-for="ConfirmPassword" 
+                                           placeholder="Re-enter your password"
+                                           required />
+                                </div>
+                            </div>
+
+                            <!-- Register Button -->
+                            <button type="submit" class="btn btn-register">
+                                <i class="fas fa-user-plus me-2"></i> Create Account
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="register-footer">
+                        Already have an account? 
+                        <a href="/Login/Index">Sign In</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

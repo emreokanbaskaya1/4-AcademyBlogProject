@@ -19,7 +19,8 @@
     <div class="container">
         @if (TempData["SuccessMessage"] != null)
         {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" data-aos="fade-down">
+                <strong><i class="fas fa-check-circle"></i> Success!</strong><br>
                 @TempData["SuccessMessage"]
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -104,10 +105,15 @@
                         <div class="col-12 mb-3">
                             <textarea asp-for="Message" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
                             <span asp-validation-for="Message" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-globe"></i> You can write in any language (English, Turkish, Korean, Japanese, etc.)
+                            </small>
                         </div>
 
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary">Send Message</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
                         </div>
                     </div>
                 </form>

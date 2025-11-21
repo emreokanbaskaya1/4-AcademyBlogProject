@@ -99,5 +99,15 @@ namespace Blogy.WebUI.Areas.Admin.Controllers
                 return View(createCommentDto);
             }
         }
+
+        /// <summary>
+        /// Admin herhangi bir yorumu silebilir (kullanıcı kontrolü yok)
+        /// </summary>
+        public async Task<IActionResult> DeleteComment(int id)
+        {
+            await _commentService.DeleteAsync(id);
+            TempData["Success"] = "Comment deleted successfully!";
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

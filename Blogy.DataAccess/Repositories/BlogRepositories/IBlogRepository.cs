@@ -9,6 +9,8 @@ namespace Blogy.DataAccess.Repositories.BlogRepositories
 
         Task<List<Blog>> GetLast3BlogsAsync();
 
+        Task<List<Blog>> GetLast5BlogsAsync();
+
         Task<Blog> GetBlogDetailsByIdAsync(int id);
     }
 }

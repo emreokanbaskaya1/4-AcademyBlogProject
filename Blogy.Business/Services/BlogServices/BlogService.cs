@@ -54,6 +54,12 @@ namespace Blogy.Business.Services.BlogServices
             return _mapper.Map<List<ResultBlogDto>>(values);
         }
 
+        public async Task<List<ResultBlogDto>> GetLast5BlogsAsync()
+        {
+            var values = await _blogRepository.GetLast5BlogsAsync();
+            return _mapper.Map<List<ResultBlogDto>>(values);
+        }
+
         public async Task<ResultBlogDto> GetSingleByIdAsync(int id)
         {
             // Özel metod ile tüm navigation property'leri yükle
