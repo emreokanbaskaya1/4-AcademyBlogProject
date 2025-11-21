@@ -284,10 +284,10 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## ?? Author
 
-**Emre Okan Başkaya**
+**Emre Okan BaÃ¾kaya**
 
 - GitHub: [@emreokanbaskaya1](https://github.com/emreokanbaskaya1)
-- LinkedIn: [Emre Okan Başkaya](https://linkedin.com/in/emre-okan-başkaya)
+- LinkedIn: [Emre Okan BaÃ¾kaya](https://linkedin.com/in/emre-okan-baÃ¾kaya)
 
 ## ?? Acknowledgments
 
